@@ -1,0 +1,383 @@
+MDFloatLayout:
+    md_bg_color:"#EFF7F6"
+    
+    MDLabel:
+        id: task_label
+        color: '#28c7b4'
+        halign: 'center'
+        markup: True
+        text: "[size=70][b]AGENDA[/b][/size]"
+        pos_hint: {"center_x":0.5 ,"center_y": 0.93}
+        font_name: 'RubikDoodleShadow-Regular.ttf'
+
+
+    MDLabel:
+        id: subtitle
+        color: '#fa6e98'
+        halign: 'center'
+        markup: True
+        text: "[size=40][b]Today Tasks[/b][/size]"
+        pos_hint: {"center_x":0.5 ,"center_y": 0.83}
+        font_name: 'RubikDoodleShadow-Regular.ttf'
+
+    MDLabel:
+        id:about_label
+        color: '#fa6e98'
+        haling: 'center'
+        markup: True
+        pos_hint: {"center_x":0.56,"center_y": 0.4}
+        font_name: 'Lobster-Regular.ttf'
+        label: False
+
+    ScrollView:
+        id: scroll_view
+        pos_hint: {'center_y': .5, 'center_x': .5}
+        size_hint: .9, .55
+        
+
+        MDList:
+            id: container
+
+            
+
+    MDFloatingActionButton:
+        icon: 'plus-thick'
+        text_color: 1, 1, 1, 1
+        on_release: app.show_task_dialog()
+        elevation_normal: 12
+        pos_hint: {'center_x': 0.5 , 'y': .04}
+        md_bg_color: '#28c7b4'
+
+    MDNavigationDrawer:
+        id: nav_drawer
+        md_bg_color: "#28c7b4"
+
+
+        BoxLayout:
+            orientation: 'vertical'
+            id: nav_bar
+
+            MDLabel:
+                id: task_label
+                color: '#EFF7F6'
+                halign: 'center'
+                markup: True
+                size_hint:None,None
+                width: nav_bar.width
+                text: "[size=40][b]AGENDA[/b][/size]"
+                font_name: 'RubikDoodleShadow-Regular.ttf'
+            
+
+            OneLineAvatarIconListItem:
+                id: item_1
+                markup: True
+                bg_color: "#F2B5D4"
+                text: '[color=#ffffff]Due Today[/color]'
+                halign: 'center'
+                on_release: app.update_nav_drawer('item_1','nav_icon_1'),app.update_selected_item(1),app.controller.update_view()
+                IconRightWidget:
+                    id: nav_icon_1
+                    icon: 'calendar-today'
+                    theme_text_color: 'Custom'
+                    text_color: '#ffffff'
+               
+                
+                
+
+            OneLineAvatarIconListItem:
+                id:item_2
+                markup: True
+                text: 'All Tasks'
+                halign: 'center'
+                on_release: app.update_nav_drawer('item_2','nav_icon_2'),app.update_selected_item(2),app.controller.update_view()
+                IconRightWidget:
+                    id: nav_icon_2
+                    icon: 'file-document-multiple-outline'
+                    theme_text_color: 'Custom'
+            
+            OneLineAvatarIconListItem:
+                id:item_3
+                markup: True
+                text: 'Categories'
+                halign: 'center'
+                on_release: app.update_nav_drawer('item_3','nav_icon_3'),app.update_selected_item(3),app.controller.update_view()
+                IconRightWidget:
+                    id: nav_icon_3
+                    icon: 'format-list-group-plus'
+                    theme_text_color: 'Custom'
+
+            OneLineAvatarIconListItem:
+                id:item_4
+                markup: True
+                text: 'Reminders'
+                halign: 'center'
+                on_release: app.update_nav_drawer('item_4','nav_icon_4'),app.update_selected_item(4),app.controller.update_view()
+                IconRightWidget:
+                    id: nav_icon_4
+                    icon: 'bell-badge-outline'
+                    theme_text_color: 'Custom'
+
+            OneLineAvatarIconListItem:
+                id:item_5
+                markup: True
+                text: 'About'
+                halign: 'center'
+                on_release: app.update_nav_drawer('item_5','nav_icon_5'),app.update_selected_item(5),app.controller.update_view()
+                IconRightWidget:
+                    id: nav_icon_5
+                    icon: 'information-outline'
+                    theme_text_color: 'Custom'
+
+            
+
+            Widget:
+
+            
+        
+
+
+<DialogContent>:
+    orientation: "vertical"
+    spacing: "20dp"
+    size_hint: 1, None
+    height: "430dp"
+
+    GridLayout:
+        rows: 7
+        row_force_default: True
+        row_default_height: "50dp"
+        spacing: dp(5)
+        MDLabel:
+            id: create_task
+            color: '#28c7b4'
+            halign: 'center'
+            markup: True
+            text: "[size=30][b]Create Task[/b][/size]"
+            pos_hint: {"center_x":0.5 ,"y": 0.4}
+            font_name: 'Diphylleia-Regular.ttf'
+
+        MDTextField:
+            id: task_name
+            hint_text: "Task Name"
+            pos_hint: {"center_x":0.5}
+            max_text_length: 50
+
+
+
+
+
+        MDTextField:
+            id: task_description
+            hint_text: "Description"
+            pos_hint: {"center_x":0.5}
+            max_text_length: 50
+
+        GridLayout
+            cols: 2
+            markup: True
+            row_force_default: True
+            row_default_height: "50dp"
+            spacing_x: dp(20)
+            MDTextFieldRect:
+                id: list_name
+                text: "General"
+                markup: True
+                hint_text: "Category"
+                size_hint_y: None
+                height: dp(35)
+                size_hint_x: dp(50)
+                width: "10dp"
+                on_focus: root.show_category_menu(self, self,['General']) if self.focus else None
+
+            MDRaisedButton:
+                text: "Add Category"
+                halign: 'center'
+                md_bg_color: '#28c7b4'
+                text_color: 1, 1, 1, 1
+                size_hint_x: dp(10)
+                pos_hint: {'x':0.5}
+                on_release: None
+
+        MDTextFieldRect:
+            id: priority_text
+            hint_text: "Priority"
+            text_align: "center"
+            pos_hint: {"center_x":0.5}
+            size_hint: None,None
+            width: root.width
+            readonly: True
+            height: "36dp"
+            on_focus: root.show_priority_menu(self, self) if self.focus else None
+
+
+
+
+
+        MDIconButton:
+            icon: 'calendar'
+            pos_hint: {"center_x":0.5}
+            on_release: root.show_date_picker()
+            padding: '10dp'
+
+        MDLabel:
+            id: date_text
+            markup: True
+            color: '#28c7b4'
+            font_name: 'PlayfairDisplay-VariableFont_wght.ttf'
+
+
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        MDRaisedButton:
+            text: "SAVE"
+            md_bg_color: '#28c7b4'
+            text_color: 1, 1, 1, 1
+            on_release: (app.controller.add_task(task_name, task_description, date_text, priority_text,list_name), app.close_dialog()) if task_name.text != '' else setattr(create_task, 'text', "[size=30][b]Create Task[/b][/size]\n[size=15][b][color=#FF0000]Enter a valid task name!![/color][/b][/size]")
+        MDFlatButton:
+            text: 'CANCEL'
+            on_release: app.close_dialog()
+
+
+<LeftCheckbox>:
+    size_hint: None, None
+    size: "48dp", "48dp"
+
+<ListItemWithCheckbox>
+    id: the_list_item
+    markup: True
+    MDCheckbox:
+        id: check
+        pos_hint: {'center_y': .5, 'center_x': 0.7}
+        on_release: app.controller.mark(the_list_item.pk,check.active)
+
+    MDIconButton:
+        icon: 'note-edit-outline'
+        pos_hint:{'center_x':0.83,'center_y':0.5}
+        on_release:app.show_update_dialog(the_list_item.pk)
+
+    IconRightWidget:
+        icon: 'trash-can-outline'
+        theme_text_color: "Custom"
+        text_color: 1, 0, 0, 1
+        pos_hint: {'center_y': .5, 'center_x': 1}
+        on_release: app.controller.delete_task(the_list_item.pk)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<UpdateDialogContent>:
+    orientation: "vertical"
+    spacing: "20dp"
+    size_hint: 1, None
+    height: "430dp"
+
+    GridLayout:
+        rows: 7
+        row_force_default: True
+        row_default_height: "50dp"
+        spacing: dp(5)
+        MDLabel:
+            id: update_task
+            color: '#28c7b4'
+            halign: 'center'
+            markup: True
+            text: "[size=30][b]Update Task[/b][/size]"
+            pos_hint: {"center_x":0.5 ,"y": 0.4}
+            font_name: 'Diphylleia-Regular.ttf'
+
+        MDTextField:
+            id: task_name
+            hint_text: "Task Name"
+            pos_hint: {"center_x":0.5}
+            max_text_length: 50
+
+
+
+
+
+        MDTextField:
+            id: task_description
+            hint_text: "Description"
+            pos_hint: {"center_x":0.5}
+            max_text_length: 50
+
+        GridLayout
+            cols: 2
+            markup: True
+            row_force_default: True
+            row_default_height: "50dp"
+            spacing_x: dp(20)
+            MDTextFieldRect:
+                id: list_name
+                text: "General"
+                markup: True
+                hint_text: "Category"
+                size_hint_y: None
+                height: dp(35)
+                size_hint_x: dp(50)
+                width: "10dp"
+                on_focus: root.show_category_menu(self, self,['General']) if self.focus else None
+
+            MDRaisedButton:
+                text: "Add Category"
+                halign: 'center'
+                md_bg_color: '#28c7b4'
+                text_color: 1, 1, 1, 1
+                size_hint_x: dp(10)
+                pos_hint: {'x':0.5}
+                on_release: None
+
+        MDTextFieldRect:
+            id: priority_text
+            hint_text: "Priority"
+            text_align: "center"
+            pos_hint: {"center_x":0.5}
+            size_hint: None,None
+            width: root.width
+            readonly: True
+            height: "36dp"
+            on_focus: root.show_priority_menu(self, self) if self.focus else None
+
+
+
+
+
+        MDIconButton:
+            icon: 'calendar'
+            pos_hint: {"center_x":0.5}
+            on_release: root.show_date_picker()
+            padding: '10dp'
+
+        MDLabel:
+            id: date_text
+            markup: True
+            color: '#28c7b4'
+            font_name: 'PlayfairDisplay-VariableFont_wght.ttf'
+
+
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        MDRaisedButton:
+            text: "Update"
+            md_bg_color: '#28c7b4'
+            text_color: 1, 1, 1, 1
+            on_release: (app.controller.update_task(task_name, task_description, date_text, priority_text,list_name), app.close_dialog()) if task_name.text != '' else setattr(update_task, 'text', "[size=30][b]Create Task[/b][/size]\n[size=15][b][color=#FF0000]Enter a valid task name!![/color][/b][/size]")
+        MDFlatButton:
+            text: 'CANCEL'
+            on_release: app.close_dialog()
+
