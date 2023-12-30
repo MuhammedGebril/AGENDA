@@ -187,7 +187,7 @@ MDFloatLayout:
                 height: dp(35)
                 size_hint_x: dp(50)
                 width: "10dp"
-                on_focus: root.show_category_menu(self, self,['General']) if self.focus else None
+                on_focus: root.show_category_menu(self, self) if self.focus else None
 
             MDRaisedButton:
                 text: "Add Category"
@@ -329,7 +329,7 @@ MDFloatLayout:
                 height: dp(35)
                 size_hint_x: dp(50)
                 width: "10dp"
-                on_focus: root.show_category_menu(self, self,['General']) if self.focus else None
+                on_focus: root.show_category_menu(self, self) if self.focus else None
 
             MDRaisedButton:
                 text: "Add Category"

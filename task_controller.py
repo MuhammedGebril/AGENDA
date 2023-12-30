@@ -77,10 +77,10 @@ class TaskController:
         task = Task (task_name.text,description.text,task_date.text,priority.text,0,list_name.text)
         task.id = self.view.general_task_id
         self.model.update(task)
-
         #Clearing Dialog Fields
         task_name.text = ''
         task_date.text=str(datetime.now().strftime("%Y-%m-%d"))
         description.text=''
         priority.text=''
+        self.view.list_categories=self.model.update_categories()
         self.update_view()

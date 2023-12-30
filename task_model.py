@@ -89,3 +89,4 @@ class TaskModel:
             categories.add(task.list_name)
         self.categories_count = len(categories)
         self.categories = categories
+        return self.categories

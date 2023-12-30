@@ -59,10 +59,12 @@ class DialogContent(MDBoxLayout):
             self.menu.dismiss()
 
  #############################################################################
-    def show_category_menu(self, widget, text_input, categories):
+    def show_category_menu(self, widget, text_input):
+        categories = self.list_categories
+        menu_items = []
         for i in range(len(categories)):
-            menu_items = [{"text": categories[i], "viewclass": "OneLineListItem",
-                           "on_release": lambda x=categories[i]: self.menu_callback2(text_input, x)}]
+            menu_items.append({"text": categories[i], "viewclass": "OneLineListItem",
+                           "on_release": lambda x=categories[i]: self.menu_callback2(text_input, x)})
         self.menu2 = MDDropdownMenu(
             caller=widget,
             items=menu_items,
@@ -125,10 +127,12 @@ class UpdateDialogContent(MDBoxLayout):
             self.menu.dismiss()
 
  #############################################################################
-    def show_category_menu(self, widget, text_input, categories):
+    def show_category_menu(self, widget, text_input):
+        categories = self.list_categories
+        menu_items = []
         for i in range(len(categories)):
-            menu_items = [{"text": categories[i], "viewclass": "OneLineListItem",
-                           "on_release": lambda x=categories[i]: self.menu_callback2(text_input, x)}]
+            menu_items.append({"text": categories[i], "viewclass": "OneLineListItem",
+                           "on_release": lambda x=categories[i]: self.menu_callback2(text_input, x)})
         self.menu2 = MDDropdownMenu(
             caller=widget,
             items=menu_items,
@@ -177,7 +181,7 @@ class View(MDApp):
         if not self.task_list_dialog:
             self.task_list_dialog = MDDialog(
                 type="custom",
-                content_cls=DialogContent(self.list_categories),
+                content_cls=DialogContent(self.controller.get_categories()),
             )
         self.task_list_dialog.open()
 
@@ -188,6 +192,7 @@ class View(MDApp):
 
     def on_start(self):
         self.update_daily_tasks()
+        self.change_reminders_color()
 
     #Update the daily tasks on refresh
     def update_daily_tasks(self):
@@ -285,7 +290,6 @@ class View(MDApp):
 
 
     def view_selected_category(self,list_name:str):
-        print(list_name)
         self.root.ids.container.clear_widgets()
         self.root.ids.subtitle.text = "[size=40][b]"+list_name+"[/b][/size]"
         self.category_tasks = self.controller.category_tasks(list_name)
@@ -342,12 +346,18 @@ class View(MDApp):
 
 
     def show_update_dialog(self,pk):
+        categories = self.controller.get_categories()
         tasks = self.controller.get_task(pk)
         task = tasks[0]
         self.general_task_id=task.id
         if not self.task_list_dialog:
             self.task_list_dialog = MDDialog(
                 type="custom",
-                content_cls=UpdateDialogContent(self.list_categories,task),
+                content_cls=UpdateDialogContent(categories,task),
             )
         self.task_list_dialog.open()
+
+    def change_reminders_color(self):
+        if (len(self.controller.reminders())!= 0):
+            setattr(self.root.ids.item_4,'text','[color=#FF0000]'+self.root.ids.item_4.text+'[/color]')
+            getattr(self.root.ids, 'nav_icon_4').text_color=1,0,0,1
